@@ -1,40 +1,20 @@
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras import layers
-# import pandas as pd
+from flask import Flask, render_template, request
 
+app = Flask(__name__)
 
-import pyaudio
-import wave
-file_path = 'C:\Users\HP\Documents\NoMorals'
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-audio = pyaudio.PyAudio()
+@app.route('/upload', methods=['POST'])
+def upload():
+    audio_data = request.files['audio_data']
+    # Process the audio file as needed
+    # For example, save it to disk
+    audio_data.save('uploaded_audio.wav')
+    return "Audio received and processed."
 
-stream = audio.open (format = pyaudio.paInt16, channels=1, rate=44100, input= True,frames_per_buffer=1024)
-
-frames = []
-
-try:
-    while True:
-        data = stream.read (1024)
-        frames.append (data)
-except KeyboardInterrupt:
-    pass
-
-stream.stop_stream()
-stream.close()
-audio.terminate()
-
-sound_file = wave.open ('Your recording.wave', 'wb')
-sound_file.setnchannels (1)
-sound_file.setsampwidth (audio.get_sample_size (pyaudio.paInt16))
-sound_file.setframerate (44100)
-sound_file.writeframes(b''.join(frames))
-sound_file.close()
-
-
-    
-
-
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
