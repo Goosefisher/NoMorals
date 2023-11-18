@@ -1,21 +1,10 @@
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import pandas as pd
+from flask import Flask, render_template
 
-# Test
-num_classes = 26
+app = Flask(name)
 
-# Creates path to training data
-train_fp, test_fp = "Project/archive/sign_mnist_train.csv", "Project/archive/sign_mnist_test.csv"
+@app.route('/')
+def home():
+    return render_template('index.html', message='Hello, Flask!')
 
-train_df, test_df = pd.read_csv(train_fp), pd.read_csv(test_fp)
-
-# Creates objects for inputs (x_train) and expected outputs (y_train)
-x_train, y_train = train_df.iloc[:, :0].values, train_df['label'].values
-
-x_test, y_test = test_df.iloc[:, :0].values, test_df['label'].values
-
-# PEEEEEEE
-print("hi")
+if name == 'main':
+    app.run(debug=True)
