@@ -30,17 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const startButt = document.getElementById('start');
         const stopButt = document.getElementById('stop');
 
-        let audioContext;
-        let micStreamAudioSourceNode;
-        let audioWorkletNode;
+        startButt.addEventListener('click', () => {
 
-        startButt.addEventListener('click', function() {
-            if (!window.AudioContext || 
-                !window.MediaStreamAudioSourceNode || 
-                !window.AudioWorkletNode) {
-              alert('Your browser does not support the required APIs');
-              return;
-            }
         })
+
+        
     }
 })
