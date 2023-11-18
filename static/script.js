@@ -23,17 +23,40 @@ document.addEventListener('DOMContentLoaded', function() {
         
             form.appendChild(name);
             form.appendChild(submitButt);
-        })
+        });
     }
 
     if (document.getElementById('start')) {
         const startButt = document.getElementById('start');
         const stopButt = document.getElementById('stop');
+        const audioPlayer = document.getElementById('audioPlay')
+        let mediaRecorder;
+        let recorded = [];
 
         startButt.addEventListener('click', async() => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+            
+            mediaRecorder = new MediaRecorder(stream);
 
-        })
+            mediaRecorder.ondatavailabe = event => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
 
-        
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, {type: 'audio/wav'});
+                const url = URL.createObjectURL(blob);
+                audioPlayer.src = url;
+            };
+
+            mediaRecorder.start();
+            console.log('recording!');
+        });
+
+        stopButt.addEventListener('click', () => {
+            mediaRecorder.stop();
+            console.log('stopped!');
+        });
     }
 })
