@@ -1,23 +1,46 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('test').addEventListener('click', function() {
-        let form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribution('action', 'submit');
+    
+    if (document.getElementById('test')) {
+        document.querySelector('#test').addEventListener('click', function() {
+            let form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'submit');
+        
+            document.getElementsByTagName("body")[0].appendChild(form);
+        
+            let nameTag = document.createElement('label');
+            let name = document.createElement("input");
+            name.setAttribute("placeholder", "Enter Your Name");
+            nameTag.innerHTML = "Name";
+            
+        
+            let buttTag = document.createElement('label');
+            let submitButt = document.createElement('button');
+            buttTag.innerHTML = "Submit";
 
-        document.getElementsByTagName("body").appendChild(form);
+            name.appendChild(nameTag);
+            submitButt.appendChild(buttTag);
+        
+            form.appendChild(name);
+            form.appendChild(submitButt);
+        })
+    }
 
-        let nameTag = document.createElement('label');
-        let name = document.createElement("input");
-        name.setAttribute("placeholder", "Enter Your Name");
-        nameTag.innerHTML = "Name";
-        name.appendChild(nameTag);
+    if (document.getElementById('start')) {
+        const startButt = document.getElementById('start');
+        const stopButt = document.getElementById('stop');
 
-        let btnTag = document.createElement('label');
-        let submitButt = document.createElement('button');
-        btnTag.innerHTML = "Submit";
-        submitBtn.appendChild(btnTag);
+        let audioContext;
+        let micStreamAudioSourceNode;
+        let audioWorkletNode;
 
-        form.appendChild(name);
-        form.appendChild(submitButt);
-    })
+        startButt.addEventListener('click', function() {
+            if (!window.AudioContext || 
+                !window.MediaStreamAudioSourceNode || 
+                !window.AudioWorkletNode) {
+              alert('Your browser does not support the required APIs');
+              return;
+            }
+        })
+    }
 })
