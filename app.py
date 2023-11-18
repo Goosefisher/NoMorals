@@ -1,10 +1,10 @@
 from flask import Flask, render_template
 
-app = Flask(name)
+app = Flask(__name__)
 
 @app.route('/')
 def home():
     return render_template('index.html', message='Hello, Flask!')
 
-if name == 'main':
+if __name__ == 'main':
     app.run(debug=True)
