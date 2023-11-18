@@ -6,21 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Speech recognition in Python</title>
 
-    <!-- CSS and font links-->
+    <!-- CSS and font links -->
     <link rel="stylesheet" href="{{url_for('static', filename='styles/index.css' )}}" >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   </head>
+
   <body>
     <div id="speechContainer">
+        <!-- Choose level -->
+        <div id="chooseLevel">
+          <h1>Choose Level</h1>
+          <form method="post" action="/">
+            <input type="submit" id="submitButton" value="Easy" name="easy"/>
+            <input type="submit" id="submitButton" value="Medium" name="medium"/>
+            <input type="submit" id="submitButton" value="Hard" name="hard"/>
+          </form>
+        </div>
+
+        <!-- Show generated text -->
+        {% if generated_text != "" %}
+        <div id="generatedTextContainer">
+            <h1>Please read this text</h1>
+            <p id="generatedText">{{generated_text}}</p>
+        </div>
+        {% endif %}
+
+        <!-- Upload audio -->
         <h1>Upload new File</h1>
         <form method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
+            <input type="file" id="fileButton" name="file">
             <br>
             <input type="submit" id="submitButton" value="Transcribe"/>
         </form>
 
+        <!-- Show transcript -->
         {% if transcript != "" %}
         <div id="speechTranscriptContainer">
             <h1>Transcript</h1>
