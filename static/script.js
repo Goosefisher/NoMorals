@@ -5,5 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
         form.setAttribution('action', 'submit');
 
         document.getElementsByTagName("body").appendChild(form);
+
+        let nameTag = document.createElement('label');
+        let name = document.createElement("input");
+        name.setAttribute("placeholder", "Enter Your Name");
+        nameTag.innerHTML = "Name";
+        name.appendChild(nameTag);
+
+        let btnTag = document.createElement('label');
+        let submitButt = document.createElement('button');
+        btnTag.innerHTML = "Submit";
+        submitBtn.appendChild(btnTag);
+
+        form.appendChild(name);
+        form.appendChild(submitButt);
     })
 })
