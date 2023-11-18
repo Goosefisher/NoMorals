@@ -4,30 +4,36 @@
 # from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # import pandas as pd
 
-from flask import Flask
+from flask import Flask, render_template, request, redirect
+import speech_recognition as sr
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return "Hello World!"
+    transcript = ""
+
+    # Received data
+    if request.method == "POST":
+        print("FORM DATA RECEIVED")
+
+        # Failsafes in case files not found
+        if 'file' not in request.files:
+            return redirect(request.url)
+        
+        file = request.files["file"]
+        if file.filename == "":
+            return redirect(request.url)
+        
+        # Initialize recognizer if file exists; create audio file object
+        if file:
+            recognizer = sr.Recognizer()
+            audioFile = sr.AudioFile(file)
+            with audioFile as source:
+                data = recognizer.record(source)
+            transcript = recognizer.recognize_google(data, key=None)
+
+    return render_template('index.html', transcript=transcript)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-###### Training Test
-# # Test
-# num_classes = 26
-
-# # Creates path to training data
-# train_fp, test_fp = "Project/archive/sign_mnist_train.csv", "Project/archive/sign_mnist_test.csv"
-
-# train_df, test_df = pd.read_csv(train_fp), pd.read_csv(test_fp)
-
-# # Creates objects for inputs (x_train) and expected outputs (y_train)
-# x_train, y_train = train_df.iloc[:, :0].values, train_df['label'].values
-
-# x_test, y_test = test_df.iloc[:, :0].values, test_df['label'].values
-
-# # PEEEEEEE
-# print("hi")
+    app.run(debug=True, threaded=True)
