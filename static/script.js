@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const startButt = document.getElementById('start');
         const stopButt = document.getElementById('stop');
 
-        startButt.addEventListener('click', () => {
+        startButt.addEventListener('click', async() => {
 
         })
 
