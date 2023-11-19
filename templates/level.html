@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="static/css/Levels/levels.css" rel="stylesheet">
+<title>Level Selection</title>
+{% endblock %}
+
+{% block body %}
+<div id="chooseLevel">
+    <h1>Choose Level</h1>
+    <form method="POST" action="/recording" class='levels'>
+        <div>
+            <input type="submit" id="submitButton" value="Easy" name="easy"/>
+        </div>
+        
+        <div>
+            <input type="submit" id="submitButton" value="Medium" name="medium"/>
+        </div>
+        
+        <div>
+            <input type="submit" id="submitButton" value="Hard" name="hard"/>
+        </div>
+    </form>
+  </div>
+{% endblock %}

@@ -8,6 +8,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/level')
+def level():
+    return render_template('level.html')
+
 @app.route('/scoring')
 def score():
     generated_text = "Grapse" #request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
@@ -26,7 +30,7 @@ def score():
 
     return render_template('results.html', gamemode = gamemode, score = score, message = message)
 
-@app.route('/recording')
+@app.route('/recording', methods=['POST'])
 def recording():
     return render_template('recording.html')
 
