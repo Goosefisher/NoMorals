@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="static\css\Levels\level.css" rel="stylesheet">
+<title>Level Selection</title>
+{% endblock %}
+
+{% block body %}
+<div id="chooseLevel">
+    <div class="levels">
+        <div class="div">
+            <div class="overlap" id="easy">
+                <div class="text-wrapper">Easy</div>
+            </div>
+            <div class="overlap-group" id="medium">
+                <div class="rectangle"></div>
+                <div class="text-wrapper-2">Medium</div>
+            </div>
+            <div class="div-wrapper" id="hard">
+                <div class="text-wrapper-3">Hard</div>
+            </div>
+            <p class="p">How Hard Do You Want To JAM?</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

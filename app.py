@@ -4,16 +4,21 @@ import string
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
 
 
-@app.route('/scoring', methods=['POST'])
+
+@app.route('/level', methods =['GET'])
+def level():
+    return render_template('level.html')
+
+@app.route('/scoring')
 def score():
-    generated_text = request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
-    transcript = request.form.get('transcript').translate(str.maketrans('', '', string.punctuation)).lower() 
-    gamemode = request.form.get('gamemode')
+    generated_text = "Grapse" #request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
+    transcript = "Grapes" #request.form.get('transcript').translate(str.maketrans('', '', string.punctuation)).lower() 
+    gamemode = "medium" #request.form.get('gamemode')
 
     score = fuzz.partial_ratio(transcript, generated_text)
     message = ""
@@ -27,10 +32,7 @@ def score():
 
     return render_template('results.html', gamemode = gamemode, score = score, message = message)
 
-
-
-
-@app.route('/recording')
+@app.route('/recording', methods = ['GET'])
 def recording():
     return render_template('recording.html')
 
