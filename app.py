@@ -7,7 +7,7 @@ import os
 from fuzzywuzzy import fuzz
 import string
 import matplotlib
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
