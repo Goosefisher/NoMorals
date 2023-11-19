@@ -59,7 +59,22 @@ def read():
 
     # Query model
     generated_text = generate_speech_text(input_level)
-    print(generated_text)
+    print("Generated Text: ", generated_text)
+
+    # Process the audio file as needed
+    # For example, save it to disk
+    input_path = 'uploaded_audio.wav'
+    output_path = 'processed_audio.wav'
+
+    print(request.files)
+    # Collect audio from browser
+    if 'audio_data' in request.files:
+        audio_data = request.files['audio_data']
+        audio_data.save("recording.wav")
+        # Convert the audio to PCM WAV format using ffmpeg
+        # convert_to_pcm_wav(input_path, output_path)
+    else: 
+        print("No 'audio_data' file found in the request")
 
     # Received data
     if request.method == "POST":
@@ -80,21 +95,7 @@ def read():
                 data = recognizer.record(source)
             transcript = recognizer.recognize_google(data, key=None)
     
-    audio_data = request.files['audio_data']
-
-    # Process the audio file as needed
-    # For example, save it to disk
-    input_path = 'uploaded_audio.wav'
-    output_path = 'processed_audio.wav'
-
-    audio_data.save(input_path)
-
-    # Convert the audio to PCM WAV format using ffmpeg
-    convert_to_pcm_wav(input_path, output_path)
-
     # Redirect the user to a new page or display a message
-    return "Audio received and processed."
-
     return render_template('read.html', transcript=transcript, 
                            generated_text=generated_text)
 
@@ -104,6 +105,7 @@ def generate_speech_text(input_level):
     # Generate text
     print("I am going to generate text with ", input_level)
     chat_model = OpenAI(openai_api_key=OPENAI_API_KEY)
+    print(chat_model)
 
     if input_level == HARD:
         prompt_level = HARD_TEMPLATE
@@ -117,8 +119,13 @@ def generate_speech_text(input_level):
     print(prompt)
     result = chat_model.predict(prompt)
 
-def convert_to_pcm_wav(input_path, output_path):
-    ffmpeg.input(input_path).output(output_path, acodec='pcm_s16le', ar=16000).run()
+    if result != "":
+        return str(result)
+    else:
+        return "No text found"
+
+# def convert_to_pcm_wav(input_path, output_path):
+#     ffmpeg.input(input_path).output(output_path, acodec='pcm_s16le', ar=16000).run()
 
 if __name__ == '__main__':
     app.run(debug=True)
