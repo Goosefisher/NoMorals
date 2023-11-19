@@ -1,0 +1,46 @@
+.desktop {
+    background-color: #c6c2ff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.desktop .group-wrapper {
+    background-color: #c6c2ff;
+    width: 100vw;
+    height: 100vh;
+}
+
+.desktop .group {
+    position: relative;
+    width: 100vh;
+    height: 100vh;
+    top: 100vh;
+    left: 100vh;
+}
+
+.desktop .feaf-fed-be {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.desktop .text-wrapper {
+    position: absolute;
+    width: 100px;
+    top: 100px;
+    left: 0px;
+    transform: rotate(-0.2deg);
+    font-family: "Roboto Mono-Medium", Helvetica;
+    font-weight: 500;
+    color: #291268;
+    font-size: 500px;
+    text-align: center;
+    letter-spacing: 0px;
+    line-height: -300px;
+    white-space: nowrap;
+}
