@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Results</title>
+{% endblock %}
+
+{% block body %}
+    <div id="jar">
+    {% if gamemode == 'easy' %}
+        <img src="static/assets/kiwi_jam.png">
+    {% elif gamemode == 'medium' %}
+        <img src="static/assets/mango_jam.png">
+    {% else %}
+        <img src="static/assets/dragon_jam.png">
+    {% endif %}
+    </div>
+    <div class="results">
+        <p>Score: {{ score }}%</p>
+        <p>{{message}}</p>
+        <button type="button" id="restart">Restart?</button>
+    </div>
+{% endblock %}

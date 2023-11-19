@@ -1,12 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "NoMorals",
-			"path": ".."
-		},
-		{
-			"name": "archive",
-			"path": "../../../../../Downloads/archive"
+			"path": "../../New/NoMorals"
 		}
 	],
 	"settings": {
