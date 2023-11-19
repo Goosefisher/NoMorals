@@ -165,6 +165,7 @@ def score():
 
     # Encode the plot image as base64
     plot_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
 
     if request.method == "POST":
         if "restart" in request.form:
