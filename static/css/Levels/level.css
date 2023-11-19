@@ -28,6 +28,13 @@
     top: 474px;
 }
 
+.levels .kiwi {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    top: 180px;
+    left: 30px;
+}
 .levels .text-wrapper {
     position: absolute;
     width: 238px;
@@ -62,6 +69,14 @@
     border-color: #1f0377;
 }
 
+.levels .mango {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    top: 280px;
+    left: 70px;
+}
+
 .levels .text-wrapper-2 {
     position: absolute;
     width: 314px;
@@ -88,6 +103,13 @@
     border-color: #1f0377;
 }
 
+.levels .dragon {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    top: 380px;
+    left: 50px;
+}
 .levels .text-wrapper-3 {
     position: absolute;
     width: 260px;
