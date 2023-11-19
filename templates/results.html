@@ -5,18 +5,22 @@
 {% endblock %}
 
 {% block body %}
-    <div id="jar">
-    {% if gamemode == 'easy' %}
-        <img src="static/assets/kiwi_jam.png">
-    {% elif gamemode == 'medium' %}
-        <img src="static/assets/mango_jam.png">
-    {% else %}
-        <img src="static/assets/dragon_jam.png">
-    {% endif %}
+<div class="scoring-page">
+    <div class="overlap-group-wrapper">
+        <div class="overlap-group">
+            <div class="rectangle-1"></div>
+            <div class="text-wrapper-score">Score: {{ score }}%</div>
+            <p class="div">{{message}}</p>
+            {% if gamemode == 'easy' %}
+                <img src="static/assets/kiwi_jam.png" class="pixil-frame">
+            {% elif gamemode == 'medium' %}
+                <img src="static/assets/mango_jam.png" class="pixil-frame">
+            {% else %}
+                <img src="static/assets/dragon_jam.png" class="pixil-frame">
+            {% endif %}
+            <div class="rectangle-2"></div>
+            <div class="text-wrapper-restart"></div>
+        </div>
     </div>
-    <div class="results">
-        <p>Score: {{ score }}%</p>
-        <p>{{message}}</p>
-        <button type="button" id="restart">Restart?</button>
-    </div>
+</div>
 {% endblock %}
