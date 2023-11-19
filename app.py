@@ -7,7 +7,7 @@ import os
 from fuzzywuzzy import fuzz
 import string
 import matplotlib
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
@@ -34,6 +34,10 @@ HARD = 'hard'
 # Final generated text
 final_text = ""
 all_generated_texts = []
+
+# Audio file paths
+input_path = 'uploaded.wav'
+output_path = 'converted_file.wav'
 
 app = Flask(__name__)
 app.secret_key = "JellyJabber"
@@ -75,9 +79,6 @@ def read():
 
     # Process the audio file as needed
     # For example, save it to disk
-    input_path = 'uploaded.wav'
-    output_path = 'converted_file.wav'
-
     audio_file_exists = False
     transcript = ""
 
@@ -104,9 +105,6 @@ def read():
             with audioFile as source:
                 data = recognizer.record(source)
                 transcript = recognizer.recognize_google(data, key=None)
-                # Delete file
-                # os.remove(output_path)
-                print("Deleted OS")
 
             # Print out original passage and then transcript
             print("Original passage: ", all_generated_texts[0])
@@ -114,6 +112,10 @@ def read():
             print("Transcript: ", transcript)
             session['transcript'] = transcript
             print("Level: ", session['input_level'])
+            
+            # Delete audio file
+            os.remove(output_path)
+            print("Deleted audio file")
             return redirect(url_for('score'))
         else:
             print("Cannot transcribe, wrong format")
