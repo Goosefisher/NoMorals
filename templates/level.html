@@ -1,47 +1,53 @@
-<!-- {% extends 'base.html' %}
 
+{% extends "base.html" %}
 {% block head %}
-<link href="static\css\Levels\level.css" rel="stylesheet">
-<title>Level Selection</title>
+
+
+{{ super() }}
 {% endblock %}
 
+{% block extra_head %}
+<link href="static\css\Levels\level.css" rel="stylesheet">
+<title>Level Selection</title>
+
+{% endblock %}
+
+
+
 {% block body %}
+<!-- Choose level -->
 <div id="chooseLevel">
     <div class="levels">
         <div class="div">
             <div class="overlap" id="easy">
-                <div class="kiwi" > <img src="static\css\Levels\easy_kiwi_monster.png"></div>
                 <div class="text-wrapper">Easy</div>
+                    <div class="kiwi"> <img class="kiwi" src="static\css\Levels\easy_kiwi_monster.png"></div>
+                    <form method="POST" action="/read" id="easyForm">
+                        <input type="hidden" id="easyInput" value="Easy" name="easy" />
+                    </form>
+                </div>
+                <div class="overlap-group" id="medium">
+                    <div class="mango"> <img class="mango" src="static\css\Levels\medium_mango_monster.png"></div>
+                    <div class="rectangle"></div>
+                    <div class="text-wrapper-2">Medium</div>
+                    <form method="POST" action="/read" id="mediumForm">
+                        <input type="hidden" id="mediumInput" value="Medium" name="medium" />
+                    </form>
+                </div>
+                <div class="div-wrapper" id="hard">
+                    <div class="dragon"> <img class="dragon" src="static\css\Levels\hard_dragon_fruit.png"></div>
+                    <div class="text-wrapper-3">Hard</div>
+                    <form method="POST" action="/read" id="hardForm">
+                        <input type="hidden" id="hardInput" value="Hard" name="hard" />
+                    </form>
+                </div>
+                <p class="p">How Hard Do You Want To JAM?</p>
+
+
             </div>
-            <div class="overlap-group" id="medium">
-                <div class="mango"> <img src="static\css\Levels\medium_mango_monster.png"></div>
-                <div class="rectangle"></div>
-                <div class="text-wrapper-2">Medium</div>
-            </div>
-            <div class="div-wrapper" id="hard">
-                <div class="dragon"> <img src="static\css\Levels\hard_dragon_fruit.png"></div>
-                <div class="text-wrapper-3">Hard</div>
-            </div>
-            <p class="p">How Hard Do You Want To JAM?</p>
         </div>
     </div>
 </div>
-{% endblock %} -->
-
-{% extends "base.html" %}
-{% block title %}Speech Recognition in Python{% endblock %}
-{% block head %}
-{{ super() }}
 {% endblock %}
 
-{% block content %}
-<!-- Choose level -->
-<div id="chooseLevel">
-    <h1>Choose Level</h1>
-    <form method="POST" action="/">
-        <input type="submit" id="submitButton" value="Easy" name="easy" />
-        <input type="submit" id="submitButton" value="Medium" name="medium" />
-        <input type="submit" id="submitButton" value="Hard" name="hard" />
-    </form>
-</div>
-{% endblock %}
+

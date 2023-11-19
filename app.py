@@ -133,7 +133,7 @@ def read():
         print("Cannot transcribe, audio file doesn't exist")
 
     # Redirect the user to a new page or display a message
-    return render_template('recording.html', transcript=transcript, 
+    return render_template('read.html', transcript=transcript, 
                            generated_text=generated_text)
 
 @app.route('/scoring', methods=['GET','POST'])

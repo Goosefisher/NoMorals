@@ -18,20 +18,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (document.getElementById('easy')) {
-        document.getElementById('easy').addEventListener('click', function () {
-            window.location.href = "/recording";
-        });
-    }
-
-    if (document.getElementById('medium')) {
+        document.getElementById('easy').addEventListener('click', function() {
+            document.getElementById('easyForm').submit();
+        })
         document.getElementById('medium').addEventListener('click', function () {
-            window.location.href = "/recording";
+            document.getElementById('mediumForm').submit();
         });
-    }
-
-    if (document.getElementById('hard')) {
         document.getElementById('hard').addEventListener('click', function () {
-            window.location.href = "/recording";
+            document.getElementById('hardForm').submit();
         });
     }
 });

@@ -1,6 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Helvetica&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Pangolin&display=swap");
 
+
+.levels .mango {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    top: 1000px;
+    left: 50px;
+}
+
+
+.levels .kiwi {
+    position: relative;
+    width: 250px;
+    height: 220px;
+    top: 10px;
+    left: 30px;
+}
+
+
+.levels .dragon {
+    position: relative;
+    width: 250px;
+    height: 220px;
+    top: 10px;
+    left: 100px;
+}
+
 .levels {
     background-color: #d9d6ff;
     display: flex;
@@ -30,9 +57,9 @@
 
 .levels .kiwi {
     position: relative;
-    width: 400px;
-    height: 500px;
-    top: 180px;
+    width: 250px;
+    height: 250px;
+    top: 0px;
     left: 30px;
 }
 .levels .text-wrapper {
@@ -67,14 +94,17 @@
     border-radius: 50px;
     border: 4px solid;
     border-color: #1f0377;
+    opacity: 1;
+    z-index: 0;
 }
 
 .levels .mango {
     position: relative;
-    width: 300px;
-    height: 400px;
-    top: 280px;
-    left: 70px;
+    width: 250px;
+    height: 250px;
+    top: 0px;
+    left: 35px;
+    z-index: 3;
 }
 
 .levels .text-wrapper-2 {
@@ -105,10 +135,10 @@
 
 .levels .dragon {
     position: relative;
-    width: 300px;
-    height: 400px;
-    top: 380px;
-    left: 50px;
+    width: 250px;
+    height: 220px;
+    top: 0px;
+    left: 30px;
 }
 .levels .text-wrapper-3 {
     position: absolute;
