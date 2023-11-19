@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Speech Recognition in Python{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div id="speechContainer">
+        <!-- Show generated text -->
+        {% if generated_text != "" %}
+        <div id="generatedTextContainer">
+            <h1>Please read this text</h1>
+            <p id="generatedText">{{generated_text}}</p>
+        </div>
+        {% endif %}
+
+        <!-- Audio recorder -->
+        <h1>Audio Recorder</h1>
+        <button id="start-recording">Start Recording</button>
+        <button id="stop-recording" disabled>Stop Recording</button>
+        <button id="upload-button">Upload</button>
+        <audio id="audio-player" controls></audio>
+    
+        <script>
+            let startRecordingButton = document.getElementById('start-recording');
+            let stopRecordingButton = document.getElementById('stop-recording');
+            let uploadButton = document.getElementById('upload-button');
+            let audioPlayer = document.getElementById('audio-player');
+    
+            let mediaRecorder;
+            let audioChunks = [];
+    
+            startRecordingButton.addEventListener('click', () => {
+                startRecordingButton.disabled = true;
+                stopRecordingButton.disabled = false;
+    
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then((stream) => {
+                        mediaRecorder = new MediaRecorder(stream);
+    
+                        mediaRecorder.ondataavailable = (event) => {
+                            if (event.data.size > 0) {
+                                audioChunks.push(event.data);
+                            }
+                        };
+    
+                        mediaRecorder.onstop = () => {
+                            let blob = new Blob(audioChunks, { type: 'audio/wav' });
+                            let audioUrl = URL.createObjectURL(blob);
+                            audioPlayer.src = audioUrl;
+                            audioPlayer.play();
+                            uploadButton.disabled = false;
+                        };
+    
+                        mediaRecorder.start();
+                    })
+                    .catch((err) => console.error('Error accessing microphone', err));
+            });
+    
+            stopRecordingButton.addEventListener('click', () => {
+                startRecordingButton.disabled = false;
+                stopRecordingButton.disabled = true;
+    
+                mediaRecorder.stop();
+            });
+    
+            uploadButton.addEventListener('click', () => {
+                let formData = new FormData();
+                formData.append('audio_data', new Blob(audioChunks, { type: 'audio/wav' }), 'recording.wav');
+    
+                fetch('/read', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(message => console.log(message))
+                .catch(error => console.error('Error uploading audio', error));
+            });
+        </script>
+
+        <!-- Upload audio -->
+        <h1>Upload new File</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" id="fileButton" name="file">
+            <br>
+            <input type="submit" id="submitButton" value="Transcribe"/>
+        </form>
+
+        <!-- Show transcript -->
+        {% if transcript != "" %}
+        <div id="speechTranscriptContainer">
+            <h1>Transcript</h1>
+            <p id="speechText">{{transcript}}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
