@@ -8,11 +8,11 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/scoring', methods=['POST'])
+@app.route('/scoring')
 def score():
-    generated_text = request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
-    transcript = request.form.get('transcript').translate(str.maketrans('', '', string.punctuation)).lower() 
-    gamemode = request.form.get('gamemode')
+    generated_text = "Grapse" #request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
+    transcript = "Grapes" #request.form.get('transcript').translate(str.maketrans('', '', string.punctuation)).lower() 
+    gamemode = "medium" #request.form.get('gamemode')
 
     score = fuzz.ratio(transcript, generated_text)
     message = ""
@@ -29,7 +29,6 @@ def score():
 @app.route('/recording')
 def recording():
     return render_template('recording.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
