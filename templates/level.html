@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+<!-- {% extends 'base.html' %}
 
 {% block head %}
 <link href="static\css\Levels\level.css" rel="stylesheet">
@@ -25,5 +25,23 @@
             <p class="p">How Hard Do You Want To JAM?</p>
         </div>
     </div>
+</div>
+{% endblock %} -->
+
+{% extends "base.html" %}
+{% block title %}Speech Recognition in Python{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<!-- Choose level -->
+<div id="chooseLevel">
+    <h1>Choose Level</h1>
+    <form method="POST" action="/">
+        <input type="submit" id="submitButton" value="Easy" name="easy" />
+        <input type="submit" id="submitButton" value="Medium" name="medium" />
+        <input type="submit" id="submitButton" value="Hard" name="hard" />
+    </form>
 </div>
 {% endblock %}

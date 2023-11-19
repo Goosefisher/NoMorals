@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block head_extra %}
 <title>Start Screen</title>
 {% endblock %}
 
 {% block body %}
-
-
 <div class="home-page">
     <div class="group-wrapper">
         <div class="group">
@@ -16,8 +18,4 @@
         </div>
     </div>
 </div>
-
-
-
 {% endblock %}
-
