@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import speech_recognition as sr
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
-from pydub import AudioSegment
-import ffmpeg
+import subprocess
+import os
 
 OPENAI_API_KEY = "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"
 
@@ -52,8 +52,6 @@ def level():
 
 @app.route('/read', methods=['GET', 'POST'])
 def read():
-    generated_text = ""
-    transcript = ""
     input_level = session['input_level']
     print(input_level)
 
@@ -63,37 +61,60 @@ def read():
 
     # Process the audio file as needed
     # For example, save it to disk
-    input_path = 'uploaded_audio.wav'
-    output_path = 'processed_audio.wav'
+    input_path = 'uploaded.wav'
+    output_path = 'converted.wav'
 
-    print(request.files)
+    audio_file_exists = False
+    transcript = ""
+
     # Collect audio from browser
     if 'audio_data' in request.files:
         audio_data = request.files['audio_data']
-        audio_data.save("recording.wav")
+        audio_data.save(input_path)
+        audio_file_exists = True
+        print("Saved audio file")
         # Convert the audio to PCM WAV format using ffmpeg
         # convert_to_pcm_wav(input_path, output_path)
     else: 
         print("No 'audio_data' file found in the request")
 
     # Received data
-    if request.method == "POST":
+    if audio_file_exists:
+        print("Audio exists! Now transcribing...")
+        # sound = wave.open(output_path, 'rb')
+        success = convert_to_wav(input_path, output_path)
 
-        # Failsafes in case files not found
-        if 'file' not in request.files:
-            return redirect(request.url)
-        
-        file = request.files["file"]
-        if file.filename == "":
-            return redirect(request.url)
-        
-        # Initialize recognizer if file exists; create audio file object
-        if file:
+        if success:
             recognizer = sr.Recognizer()
-            audioFile = sr.AudioFile(file)
+            audioFile = sr.AudioFile(output_path)
             with audioFile as source:
                 data = recognizer.record(source)
-            transcript = recognizer.recognize_google(data, key=None)
+                transcript = recognizer.recognize_google(data, key=None)
+            # Delete file
+            os.remove(output_path)
+        else:
+            print("Cannot transcribe, wrong format")
+    else:
+        print("Cannot transcribe, audio file doesn't exist")
+    print(transcript)
+
+    # if request.method == "POST":
+
+    #     # Failsafes in case files not found
+    #     if 'file' not in request.files:
+    #         return redirect(request.url)
+        
+    #     file = request.files["file"]
+    #     if file.filename == "":
+    #         return redirect(request.url)
+        
+    #     # Initialize recognizer if file exists; create audio file object
+    #     if file:
+    #         recognizer = sr.Recognizer()
+    #         audioFile = sr.AudioFile(file)
+    #         with audioFile as source:
+    #             data = recognizer.record(source)
+    #         transcript = recognizer.recognize_google(data, key=None)
     
     # Redirect the user to a new page or display a message
     return render_template('read.html', transcript=transcript, 
@@ -126,6 +147,28 @@ def generate_speech_text(input_level):
 
 # def convert_to_pcm_wav(input_path, output_path):
 #     ffmpeg.input(input_path).output(output_path, acodec='pcm_s16le', ar=16000).run()
+
+def convert_to_wav(input_path, output_path):
+    print("Beginning function convert_to_wav")
+
+    try:
+        print("Creating command")
+        command = [
+            'ffmpeg',
+            '-i', input_path,
+            '-acodec', 'pcm_s16le',
+            '-ar', '44100',
+            output_path
+        ]
+        print(command)
+        # subprocess.run(command, check=True)
+        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print("function converted file")
+        print("Conversion completed. Output:", result.stdout)
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while converting file: {e}")
+        return False
+    return True
 
 if __name__ == '__main__':
     app.run(debug=True)

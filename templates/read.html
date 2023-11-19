@@ -78,14 +78,6 @@
             });
         </script>
 
-        <!-- Upload audio -->
-        <h1>Upload new File</h1>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" id="fileButton" name="file">
-            <br>
-            <input type="submit" id="submitButton" value="Transcribe"/>
-        </form>
-
         <!-- Show transcript -->
         {% if transcript != "" %}
         <div id="speechTranscriptContainer">
