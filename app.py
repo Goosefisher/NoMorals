@@ -1,13 +1,9 @@
-# import tensorflow as tf
-# from tensorflow import keras
-# from tensorflow.keras import layers
-# from tensorflow.keras.preprocessing.image import ImageDataGenerator
-# import pandas as pd
-
 from flask import Flask, render_template, request, redirect, url_for, session
 import speech_recognition as sr
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
+from pydub import AudioSegment
+import ffmpeg
 
 OPENAI_API_KEY = "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"
 
@@ -84,6 +80,21 @@ def read():
                 data = recognizer.record(source)
             transcript = recognizer.recognize_google(data, key=None)
     
+    audio_data = request.files['audio_data']
+
+    # Process the audio file as needed
+    # For example, save it to disk
+    input_path = 'uploaded_audio.wav'
+    output_path = 'processed_audio.wav'
+
+    audio_data.save(input_path)
+
+    # Convert the audio to PCM WAV format using ffmpeg
+    convert_to_pcm_wav(input_path, output_path)
+
+    # Redirect the user to a new page or display a message
+    return "Audio received and processed."
+
     return render_template('read.html', transcript=transcript, 
                            generated_text=generated_text)
 
@@ -106,10 +117,8 @@ def generate_speech_text(input_level):
     print(prompt)
     result = chat_model.predict(prompt)
 
-    if result != "":
-        return str(result)
-    else:
-        return "No text found"
+def convert_to_pcm_wav(input_path, output_path):
+    ffmpeg.input(input_path).output(output_path, acodec='pcm_s16le', ar=16000).run()
 
-if __name__ == "__main__":
-    app.run(debug=True, threaded=True)
+if __name__ == '__main__':
+    app.run(debug=True)
