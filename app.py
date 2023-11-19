@@ -4,6 +4,13 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
 import subprocess
 import os
+from fuzzywuzzy import fuzz
+import string
+import matplotlib
+# matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 OPENAI_API_KEY = "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"
 
@@ -60,14 +67,16 @@ def read():
     print(input_level)
 
     # Query model
-    generated_text = generate_speech_text(input_level)
+    # generated_text = generate_speech_text(input_level)
+    generated_text = "Breakfast is the most important meal of the day so why not start off with a delicious homemade spread"
+    # generated_text = generated_text.strip('\"\"')
     print("Generated Text: ", generated_text)
     all_generated_texts.append(generated_text)
 
     # Process the audio file as needed
     # For example, save it to disk
     input_path = 'uploaded.wav'
-    output_path = 'converted.wav'
+    output_path = 'converted_file.wav'
 
     audio_file_exists = False
     transcript = ""
@@ -95,12 +104,17 @@ def read():
             with audioFile as source:
                 data = recognizer.record(source)
                 transcript = recognizer.recognize_google(data, key=None)
-            # Delete file
-            os.remove(output_path)
+                # Delete file
+                # os.remove(output_path)
+                print("Deleted OS")
 
             # Print out original passage and then transcript
             print("Original passage: ", all_generated_texts[0])
+            session['generated_text'] = all_generated_texts[0]
             print("Transcript: ", transcript)
+            session['transcript'] = transcript
+            print("Level: ", session['input_level'])
+            return redirect(url_for('score'))
         else:
             print("Cannot transcribe, wrong format")
     else:
@@ -109,6 +123,59 @@ def read():
     # Redirect the user to a new page or display a message
     return render_template('read.html', transcript=transcript, 
                            generated_text=generated_text)
+
+@app.route('/scoring', methods=['GET','POST'])
+def score():
+    generated_text = session['generated_text'].translate(str.maketrans('', '', string.punctuation)).lower()
+    transcript = session['transcript'].translate(str.maketrans('', '', string.punctuation)).lower() 
+    gamemode = session['input_level'].translate(str.maketrans('', '', string.punctuation)).lower() 
+
+    score = fuzz.ratio(transcript, generated_text)
+    print(score)
+    message = ""
+
+    if 0 <= score and score < 50:
+        message = "Better luck next time, Jelly Warrior!"
+    elif score <= 80:
+        message = "Not too shabby, Jelly Warrior!"
+    else:
+        message = "You're out of this world, Jelly Warrior!"
+    print(message)
+
+    # Generate diff between two strings
+    strings_diff = compare_strings(transcript, generated_text)
+
+    generic_x_list, generic_y_list = create_horizontal_function(strings_diff)
+    plt.plot(generic_x_list, generic_y_list, marker='o', linestyle='', 
+             color='purple')
+
+    discontinuity_list = find_discontinuity_points(strings_diff)
+
+    for point in discontinuity_list:
+        plt.scatter(*point, color='red', marker='x', s=100)
+
+    plt.xlabel('Words you said')
+    plt.ylabel('Correct or incorrect')
+    plt.title('How well did you jam in this level?')
+
+    # Save the plot to a BytesIO object
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    # Encode the plot image as base64
+    plot_url = base64.b64encode(img.getvalue()).decode()
+
+    if request.method == "POST":
+        if "restart" in request.form:
+            # User wants to restart
+            return redirect(url_for('level'))
+
+    # return render_template('results.html', gamemode = gamemode, score = score,
+    #                        message = message, strings_diff=strings_diff)
+    return render_template('results.html', gamemode = gamemode, score = score,
+                           message = message, strings_diff = strings_diff, 
+                           plot_url=plot_url)
 
 def generate_speech_text(input_level):
     prompt_level = ""
@@ -156,6 +223,47 @@ def convert_to_wav(input_path, output_path):
         print(f"Error occurred while converting file: {e}")
         return False
     return True
+
+def create_horizontal_function(strings_diff):
+    x_list = []
+    y_list = []
+
+    strings_list = strings_diff.split(" ")
+
+    # x-coordinates are a counter of the number of words in generated_text
+    for i in range(len(strings_list)):
+        if not '*' in strings_list[i]:
+            x_list.append(i + 1) 
+            y_list.append(1)
+
+    return x_list, y_list
+
+def find_discontinuity_points(strings_diff):
+    discontinuity_list = []
+    strings_list = strings_diff.split(" ")
+
+    for index, word in enumerate(strings_list):
+        print("strings list", strings_list)
+        if '*' in word:
+            discontinuity_list.append((index + 1, 1))
+    
+    print("discontinuity list", discontinuity_list)
+    return discontinuity_list
+
+def compare_strings(transcript, generated_text):
+    transcript_list = transcript.split(" ")
+    generated_text_list = generated_text.split(" ")
+    output_list = []
+
+    for word in generated_text_list:
+        if word in transcript_list:
+            output_list.append(word)
+        else:
+            output_list.append('*' + word + '*')
+
+    output_list_string = " ".join(output_list)
+    print(output_list_string)
+    return output_list_string
 
 if __name__ == '__main__':
     app.run(debug=True)

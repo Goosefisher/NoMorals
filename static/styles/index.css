@@ -28,3 +28,141 @@ h1, p, input, form {
     font-size: 18px;
     width: 500px;
 }
+
+#jar {
+    height: 100%;
+    left: 0;
+    width: 40%
+}
+
+.results {
+    width: 60%;
+    left: 60%;
+    text-align: center;
+    font-size: 100px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #8075FF;
+}
+
+.scoring-page {
+    background-color: #d9d6ff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+  
+.scoring-page .overlap-group-wrapper {
+    background-color: #d9d6ff;
+    width: 1440px;
+    height: 1024px;
+}
+  
+.scoring-page .overlap-group {
+    position: relative;
+    height: 940px;
+    top: 54px;
+}
+  
+.scoring-page .rectangle-1 {
+    position: absolute;
+    width: 1215px;
+    height: 124px;
+    top: 1px;
+    left: 110px;
+    background-color: #a088ff;
+    border-radius: 20px;
+}
+  
+.scoring-page .text-wrapper-score {
+    position: absolute;
+    width: 950px;
+    top: 0;
+    left: 232px;
+    font-family: "Rhodium Libre-Regular", Helvetica;
+    font-weight: 400;
+    color: #251f28;
+    font-size: 96px;
+    text-align: center;
+    letter-spacing: -2.21px;
+    line-height: 144px;
+}
+  
+.scoring-page .div {
+    position: absolute;
+    width: 1198px;
+    top: 163px;
+    left: 108px;
+    font-family: "Rhodium Libre-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 50px;
+    text-align: center;
+    letter-spacing: -1.15px;
+    line-height: 75px;
+    white-space: nowrap;
+}
+  
+.scoring-page .strings_diff {
+    position: absolute;
+    width: 400px;
+    top: 163px;
+    left: 108px;
+    font-family: "Rhodium Libre-Regular", Helvetica;
+    font-weight: 40;
+    color: #000000;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: -1.15px;
+    line-height: 75px;
+    white-space: nowrap;
+}
+  
+.scoring-page .pixil-frame {
+    position: absolute;
+    width: 693px;
+    height: 699px;
+    top: 230px;
+    left: 370px;
+    object-fit: cover;
+}
+  
+.scoring-page .img {
+    position: absolute;
+    width: 726px;
+    height: 714px;
+    top: 214px;
+    left: 396px;
+    object-fit: cover;
+}
+  
+.scoring-page .pixil-frame-2 {
+    position: absolute;
+    width: 570px;
+    height: 622px;
+    top: 159px;
+    left: 870px;
+    object-fit: cover;
+}
+
+.scoring-page .rectangle-2 {
+    position: absolute;
+    width: 299px;
+    height: 93px;
+    bottom: 1px;
+    left: 568px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #A088FF;
+}
+
+.scoring-page .text-wrapper-score {
+    color: #262028;
+    text-align: center;
+    font-family: 'Rhodium Libre';
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 75px */
+    letter-spacing: -1.15px;
+}
