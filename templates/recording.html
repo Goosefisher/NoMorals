@@ -1,29 +1,46 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% block title %}Speech Recognition in Python{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="static\css\Recording\recording.css"/>
-    <title>Recording Page</title>
+  {{ super() }}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="static\css\Recording\recording.css"/>
+<title>Recording</title>
 {% endblock %}
 
 {% block body %}
+    <div id="speechContainer">
+
+
     <div class="recording-page">
         <div class="div">
-            <div class="text-wrapper">passage</div>
-            <img class="image" src="static\css\Recording\pause.png" />
+            <div class="text-wrapper">{{generated_text}}</div>
             <div>
-
-                <div>
-                    <img class="img" src="static\css\Recording\pause.png" />
+                <div id="stop-recording" disabled>
+                    <img class="image" src="static\css\Recording\pause.png" />
                 </div>
 
                 <div id="analyse">
                     <img class="analyze" src="static\css\Recording\analyze.png" /> 
                 </div>
 
-                <div>
+                <div id="start-recording">
                     <img class="img" src="static\css\Recording\play.png" />
                 </div>
 
+                <!-- <audio id="audio-player" controls></audio> -->
+
+            </div>
+            </div>
+                <!-- Show transcript -->
+                {% if transcript != "" %}
+                <div id="speechTranscriptContainer">
+                    <h1>Transcript</h1>
+                    <p id="speechText">{{transcript}}</p>
+                </div>
+                {% endif %}
             </div>
         </div>
+    </div>
 {% endblock %}

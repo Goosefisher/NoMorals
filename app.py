@@ -73,15 +73,15 @@ def level():
     else:
         return render_template('level.html')
 
-@app.route('/read', methods=['GET', 'POST'])
+@app.route('/recording', methods=['GET', 'POST'])
 def read():
     input_level = session['input_level']
     print(input_level)
 
     # Query model
-    # generated_text = generate_speech_text(input_level)
-    generated_text = "Breakfast is the most important meal of the day so why not start off with a delicious homemade spread"
-    # generated_text = generated_text.strip('\"\"')
+    generated_text = generate_speech_text(input_level)
+    # generated_text = "Breakfast is the most important meal of the day so why not start off with a delicious homemade spread"
+    generated_text = generated_text.strip('\"\"')
     print("Generated Text: ", generated_text)
     all_generated_texts.append(generated_text)
 
@@ -116,9 +116,6 @@ def read():
             with audioFile as source:
                 data = recognizer.record(source)
                 transcript = recognizer.recognize_google(data, key=None)
-                # Delete file
-                # os.remove(output_path)
-                print("Deleted OS")
 
             # Print out original passage and then transcript
             print("Original passage: ", all_generated_texts[0])
@@ -126,6 +123,10 @@ def read():
             print("Transcript: ", transcript)
             session['transcript'] = transcript
             print("Level: ", session['input_level'])
+
+            # Delete file
+            os.remove(output_path)
+            print("Deleted OS")
             return redirect(url_for('score'))
         else:
             print("Cannot transcribe, wrong format")
@@ -133,7 +134,7 @@ def read():
         print("Cannot transcribe, audio file doesn't exist")
 
     # Redirect the user to a new page or display a message
-    return render_template('read.html', transcript=transcript, 
+    return render_template('recording.html', transcript=transcript, 
                            generated_text=generated_text)
 
 @app.route('/scoring', methods=['GET','POST'])
