@@ -24,6 +24,10 @@ EASY = 'easy'
 MEDIUM = 'medium'
 HARD = 'hard'
 
+# Final generated text
+final_text = ""
+all_generated_texts = []
+
 app = Flask(__name__)
 app.secret_key = "JellyJabber"
 
@@ -58,6 +62,7 @@ def read():
     # Query model
     generated_text = generate_speech_text(input_level)
     print("Generated Text: ", generated_text)
+    all_generated_texts.append(generated_text)
 
     # Process the audio file as needed
     # For example, save it to disk
@@ -67,7 +72,7 @@ def read():
     audio_file_exists = False
     transcript = ""
 
-    # Collect audio from browser
+    # Collect audio from browser and save generated_text as final_text
     if 'audio_data' in request.files:
         audio_data = request.files['audio_data']
         audio_data.save(input_path)
@@ -92,30 +97,15 @@ def read():
                 transcript = recognizer.recognize_google(data, key=None)
             # Delete file
             os.remove(output_path)
+
+            # Print out original passage and then transcript
+            print("Original passage: ", all_generated_texts[0])
+            print("Transcript: ", transcript)
         else:
             print("Cannot transcribe, wrong format")
     else:
         print("Cannot transcribe, audio file doesn't exist")
-    print(transcript)
 
-    # if request.method == "POST":
-
-    #     # Failsafes in case files not found
-    #     if 'file' not in request.files:
-    #         return redirect(request.url)
-        
-    #     file = request.files["file"]
-    #     if file.filename == "":
-    #         return redirect(request.url)
-        
-    #     # Initialize recognizer if file exists; create audio file object
-    #     if file:
-    #         recognizer = sr.Recognizer()
-    #         audioFile = sr.AudioFile(file)
-    #         with audioFile as source:
-    #             data = recognizer.record(source)
-    #         transcript = recognizer.recognize_google(data, key=None)
-    
     # Redirect the user to a new page or display a message
     return render_template('read.html', transcript=transcript, 
                            generated_text=generated_text)
@@ -145,9 +135,6 @@ def generate_speech_text(input_level):
     else:
         return "No text found"
 
-# def convert_to_pcm_wav(input_path, output_path):
-#     ffmpeg.input(input_path).output(output_path, acodec='pcm_s16le', ar=16000).run()
-
 def convert_to_wav(input_path, output_path):
     print("Beginning function convert_to_wav")
 
@@ -164,7 +151,7 @@ def convert_to_wav(input_path, output_path):
         # subprocess.run(command, check=True)
         result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         print("function converted file")
-        print("Conversion completed. Output:", result.stdout)
+        print("Conversion completed")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while converting file: {e}")
         return False
