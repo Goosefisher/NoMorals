@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<link href="static/css/scoring.css" rel="stylesheet">
 <title>Results</title>
 {% endblock %}
 
@@ -9,7 +10,7 @@
     <div class="overlap-group-wrapper">
         <div class="overlap-group">
             <div class="rectangle-1"></div>
-            <div class="text-wrapper-score">Score: {{ score }}%</div>
+            <p class="text-wrapper-score">Score: {{ score }}%</p>
             <p class="div">{{message}}</p>
             {% if gamemode == 'easy' %}
                 <img src="static/assets/kiwi_jam.png" class="pixil-frame">
@@ -18,8 +19,10 @@
             {% else %}
                 <img src="static/assets/dragon_jam.png" class="pixil-frame">
             {% endif %}
-            <div class="rectangle-2"></div>
-            <div class="text-wrapper-restart"></div>
+            <div id="restart">
+                <div class="rectangle-2"></div>
+                <div class="text-wrapper-restart">Restart?</div>
+            </div>
         </div>
     </div>
 </div>

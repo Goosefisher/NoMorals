@@ -8,17 +8,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-#@app.route('/name', methods=['GET', 'POST'])
-#def name():
-#    if request.method == 'POST':
-#        name = request.form.get('name')
-#        for symbol in ["'", '"', ";"]:
-#            if symbol in name:
-#                break
-#            else:
-#                return redirect('/upload')
-#    return render_template('name.html')
-
 @app.route('/scoring', methods=['POST'])
 def score():
     generated_text = request.form.get('generated_text').translate(str.maketrans('', '', string.punctuation)).lower()
