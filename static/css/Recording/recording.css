@@ -1,0 +1,67 @@
+.recording-page {
+    background-color: #d9d6ff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.recording-page .div {
+    background-color: #d9d6ff;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.recording-page .text-wrapper {
+    position: absolute;
+    width: 400px;
+    top: 50px;
+    left: 600px;
+    font-family: "Rhodium Libre-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 125px;
+    text-align: center;
+    letter-spacing: -1.47px;
+    line-height: 96px;
+}
+
+
+.recording-page .image {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 400px;
+    left: 900px;
+    object-fit: cover;
+}
+
+
+
+.recording-page .img {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 400px;
+    left: 540px;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+
+
+
+.recording-page .analyze {
+    position: absolute;
+    width: 750px;
+    height: 200px;
+    top: 650px;
+    left: 470px;
+    background-size: cover;
+    background-position: 50% 50%
+
+
+
+}

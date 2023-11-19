@@ -1,0 +1,45 @@
+.home-page {
+    background-color: #d9d6ff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.home-page .group-wrapper {
+    background-color: #d9d6ff;
+    width: 100vw;
+    height: 100vh;
+}
+
+.home-page .group {
+    position: relative;
+    width: 1200px;
+    height: 500px;
+    top: 600px;
+    left: 1100px;
+}
+
+.home-page .feaf-fed-be {
+    position: absolute;
+    width: 800px;
+    height: 1000px;
+    top: 0;
+    left: 0;
+}
+
+.home-page .text-wrapper {
+    position: absolute;
+    width: 837px;
+    top: 500px;
+    left: 700px;
+    transform: rotate(-0.2deg);
+    font-family: "Roboto Mono-Medium", Helvetica;
+    font-weight: 500;
+    color: #1e1e1e;
+    font-size: 220px;
+    text-align: center;
+    letter-spacing: 2px;
+    line-height: 185px;
+    white-space: nowrap;
+}
