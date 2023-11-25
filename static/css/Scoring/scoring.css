@@ -40,8 +40,8 @@
     position: absolute;
     width: 1000px;
     height: 124px;
-    top: -0.5;
-    left: 20.5vw;
+    top: -0.2;
+    left: 26vw;
     font-weight: 400;
     color: hsl(280, 13%, 14%);
     font-size: 90px;
@@ -80,6 +80,7 @@
     left: 41vw;
     flex-shrink: 0;
     border-radius: 20px;
+    z-index: 0;
     background: #A088FF;
 }
 

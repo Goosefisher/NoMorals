@@ -26,7 +26,7 @@ OPENAI_API_KEY = "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"
 BEGIN_PROMPT = "Write a speech practice text, consisting of two\
     sentences, with themes related to jams, fruits, or breakfasts. "
 EASY_TEMPLATE = "Create 2 sentences with straightforward words and\
-    clear pronunciation. "
+    clear pronunciation. " 
 MEDIUM_TEMPLATE = "Introduce sentences with slightly more complex words or\
     phrases that require careful articulation. "
 HARD_TEMPLATE = "Include sentences with challenging sounds or tongue-twisters\
@@ -45,6 +45,8 @@ all_generated_texts = []
 
 app = Flask(__name__)
 app.secret_key = "JellyJabber"
+
+all_generated_texts.clear()
 
 @app.route('/', methods=['GET'])
 def home():
@@ -81,9 +83,11 @@ def read():
     # Query model
     generated_text = generate_speech_text(input_level)
     # generated_text = "Breakfast is the most important meal of the day so why not start off with a delicious homemade spread"
-    generated_text = generated_text.strip('\"\"')
+    # generated_text = generated_text.strip('\"\"')
     print("Generated Text: ", generated_text)
     all_generated_texts.append(generated_text)
+    all_generated_texts.append(" ")
+    print(all_generated_texts)
 
     # Process the audio file as needed
     # For example, save it to disk
@@ -188,6 +192,9 @@ def score():
     plot_url = base64.b64encode(img.getvalue()).decode()
     plt.close()
 
+    # Clear list
+    all_generated_texts.clear()
+
     if request.method == "POST":
         if "restart" in request.form:
             # User wants to restart
@@ -265,11 +272,11 @@ def find_discontinuity_points(strings_diff):
     strings_list = strings_diff.split(" ")
 
     for index, word in enumerate(strings_list):
-        print("strings list", strings_list)
+        # print("strings list", strings_list)
         if '*' in word:
             discontinuity_list.append((index + 1, 1))
     
-    print("discontinuity list", discontinuity_list)
+    # print("discontinuity list", discontinuity_list)
     return discontinuity_list
 
 def compare_strings(transcript, generated_text):

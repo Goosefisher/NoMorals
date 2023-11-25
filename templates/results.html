@@ -15,7 +15,8 @@
 <div class="scoring-page">
     <div class="overlap-group-wrapper">
         <div class="overlap-group">
-            <div class="rectangle-1"></div>
+            <div class="rectangle-1">     
+            </div>
             <p class="text-wrapper-score">Score: {{ score }}%</p>
             <p class="div">{{message}}</p>
             {% if gamemode == 'easy' %}
@@ -32,5 +33,43 @@
             </div>
         </div>
     </div>
+    <div class="analytics">
+         <style>
+            .strings-diff {
+                float: right;
+                margin-right: 150px;
+                margin-top: 70px;
+                position: absolute;
+                top: 150px;
+                z-index: 1;
+                width: 600px;
+                font-family: 'Rhodium Libre';
+                font-weight: 400;
+                color: #000000;
+                font-size: 25px;
+                text-align: left;
+                letter-spacing: -1px;
+                line-height: 35px;
+                /* Adjust the margin as needed */
+            }
+        </style>
+        <style>
+            .graph-container {
+                float: right;
+                margin-right: 150px;
+                margin-top: 380px;
+                top: 200px;
+                left: 800px;
+                width: 600px;
+                
+                /* Adjust the margin as needed */
+            }
+        </style>
+        <p class="strings-diff">How you performed: {{strings_diff}}</p>
+        <br>
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ plot_url }}" alt="Line Chart">
+        </div>
+    </div>    
 </div>
 {% endblock %}
